@@ -13,12 +13,14 @@ class CreateEventTag extends Migration
      */
     public function up()
     {
-       
+
         Schema::create('event_tag', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned();
             $table->integer('tag_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
+
 
             $table->foreign('event_id')
                 ->references('id')
