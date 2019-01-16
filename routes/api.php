@@ -11,14 +11,17 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 
-
-Route::resources([
-    'events' => 'EventsController'
-
-]);
-
-Route::get('events/my-events/{user}', 'EventsController@myEvents');
-
+Route::group([
+	'middleware' => 'auth.api'
+], function () {
+	Route::resources( [
+		'events' => 'EventsController'
+	] );
+	Route::get( 'events/my-events/{user}', 'EventsController@myEvents' );
+	Route::post('logout', 'AuthController@logout');
+	Route::post('refresh', 'AuthController@refresh');
+});
+Route::post('login', 'AuthController@login');

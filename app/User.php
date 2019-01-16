@@ -5,7 +5,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-class User extends Authenticatable implements Transformable
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements Transformable, JWTSubject
 {
     use Notifiable;
 	use SoftDeletes;
@@ -35,4 +37,13 @@ class User extends Authenticatable implements Transformable
     public function event() {
     	return $this->belongsToMany(Event::class, 'user_event');
     }
+    public function getJWTIdentifier() {
+		return $this->getKey();
+	}
+ 	public function getJWTCustomClaims() {
+		return [
+			'email' => $this->email
+		];
+	}
+
 }
