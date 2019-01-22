@@ -22,7 +22,7 @@ class AttachmentValidator extends LaravelValidator
             'source' => 'required'
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'source' => 'required|image'
+            'source' => 'required'
         ],
     ];
 }
